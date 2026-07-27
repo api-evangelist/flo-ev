@@ -1,0 +1,335 @@
+aid: flo-ev
+name: FLO
+review:
+  question: Does FLO expose a documented public API, and does any energy-data mandate reach it?
+  answer: false
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  homeMarket: Canada
+  tier: ev-charging
+  method: >-
+    Anonymous HTTP probing of flo.com and its subdomains, the WordPress sitemap index
+    (103 pages enumerated from page-sitemap.xml plus post-sitemap1/2.xml), and full-text
+    scraping of the product, software, utilities and partner pages. Every URL below was
+    probed on 2026-07-27 and its HTTP status recorded.
+
+energyDataPosture:
+  mandateRegime: none
+  mandateStatus: not-applicable
+  mandateReasoning: >-
+    FLO is a charge point operator (CPO) and e-mobility service provider, not a regulated
+    electricity or gas utility, distributor, transmitter or retailer. No energy consumer-data
+    obligation reaches it in any of its markets.
+    (1) Ontario's Green Button regulation obliges Ontario electricity and natural gas
+    utilities to publish Download My Data / Connect My Data - it does not designate EV
+    charging networks. FLO is Quebec-headquartered and, even where it operates chargers in
+    Ontario, it is not a licensed distributor or retailer, so the Ontario mandate does not
+    attach.
+    (2) The Australian Consumer Data Right for energy is a different jurisdiction; FLO has
+    no Australian retail energy operation and is not a designated CDR data holder.
+    (3) Canada federally has no consumer energy data right; electricity is provincial, and
+    Quebec (Hydro-Quebec) imposes no third-party energy API obligation on charging networks.
+    No press release, compliance page, register entry or regulator listing was found that
+    claims FLO is covered by any energy data mandate, so there is nothing here to
+    downgrade from "claimed" to "unverified" - the honest answer is that no regime applies.
+  mandateVerification: >-
+    Verified by absence: probed for any compliance, regulatory, data-sharing or Green Button
+    page across the full flo.com sitemap (103 pages) and found none. No CDR register entry,
+    no Green Button endpoint, no ESPI surface.
+
+  dataStandard: >-
+    OCPP 1.6J (station-to-network) + OCPI (roaming) + OpenADR 2.0 (utility demand response).
+    No consumer energy data standard (no Green Button / ESPI, no CDR Consumer Data Standards,
+    no IEEE 2030.5, no IEC CIM) reference found.
+  dataStandardEvidence:
+  - standard: OCPP 1.6J
+    scope: Station-to-network (charger hardware to charging network operator)
+    source: https://www.flo.com/products/hardware/smartdc/
+    httpStatus: 200
+    quote: 'Networking: Cellular - 4G (LTE), HSPA+ OCPP1.6J'
+    note: >-
+      The FLO Ultra page (https://www.flo.com/products/hardware/ultra/, HTTP 200) additionally
+      states "With OCPP integration, you have the freedom to choose" - i.e. a purchased FLO
+      station can be operated on a third-party network. This is hardware interoperability,
+      not a FLO-published API.
+  - standard: OCPI (Open Charge Point Interface)
+    scope: Roaming between charging networks (CPO to eMSP)
+    source: https://www.flo.com/insights/ev-charging-roaming/
+    httpStatus: 200
+    quote: >-
+      Open Charge Point Interface comes in. It serves as the communication protocol that
+      allows each network to exchange data about which chargers are available, the session
+      rate, the total charging session cost (so that the networks can reconcile billing
+      afterward) and more.
+    note: >-
+      FLO names OCPI on its own site and links to evroaming.org. FLO does NOT publish an OCPI
+      credentials/versions endpoint, a party ID, or any base URL. OCPI here is a described
+      capability behind bilateral roaming agreements (BC Hydro EV, ChargePoint, eCharge
+      Network, Electric Circuit, Shell Recharge, SWTCH - listed at
+      https://www.flo.com/company/partner-networks/, HTTP 200), not a callable public surface.
+  - standard: OpenADR 2.0
+    scope: Utility demand response / smart grid control of charging stations
+    source: https://www.flo.com/business/utilities/
+    httpStatus: 200
+    quote: >-
+      Through OpenADR 2.0 or FLO's flexible API, we support integration with utility demand
+      response and smart grid programs to control EV charging stations.
+    note: >-
+      This is the ONLY first-party mention of "FLO's flexible API" found anywhere on flo.com.
+      It is a marketing sentence on a lead-capture page. No endpoint, no reference, no
+      onboarding path, no auth documentation accompanies it. Corroborated externally by the
+      EnergyHub partnership (2025-05-13) describing a "direct integration with EnergyHub via
+      OpenADR" giving FLO Home X3/X6/X8 owners access to EV managed charging programs at
+      EnergyHub's 80+ utility clients - a bilateral integration, not a public API.
+  - standard: Plug and Charge (GM, CCS connector)
+    scope: Driver authentication at the charger
+    source: https://www.flo.com/news/flo-enables-gm-plug-and-charge/
+    httpStatus: 200
+    note: >-
+      FLO describes this as "FLO's autocharge software" working with the Combined Charging
+      System (CCS) connector and GM's myBrand apps. ISO 15118 is NOT named by FLO on this
+      page - do not attribute it.
+
+  consumerDataApi: false
+  consumerDataFinding: >-
+    No third party can obtain an individual FLO customer's charging, usage or billing data
+    through any documented API. Session history, energy consumed and invoices are reachable
+    only by the account holder (driver) or the station owner, by logging in to
+    https://account.flo.com/ (HTTP 200, redirects to /Account/Login) or the FLO mobile app,
+    and by station owners through the Owner's Portal / CSNMS web portal described at
+    https://www.flo.com/products/software/owners-portal/ (HTTP 200). Both are human web
+    logins with no documented programmatic surface and no published OAuth/OIDC discovery
+    document (https://account.flo.com/.well-known/openid-configuration returned the SPA HTML
+    shell, not a JSON OIDC configuration; https://www.flo.com/.well-known/openid-configuration
+    returned HTTP 404).
+  marketDataOpen: false
+  marketDataFinding: >-
+    FLO publishes no open grid, market, emissions or station-location data feed under its own
+    name. Station locations are surfaced only through the flo.com map and the FLO mobile app,
+    and FLO states that its public network-connected stations "are also integrated into
+    third-party platforms" - that redistribution happens through partner/roaming agreements,
+    not through a FLO open data endpoint. There is no data licence page, no data catalogue,
+    and no /data surface (https://www.flo.com/data returns 404; data.flo.com does not resolve).
+  split: >-
+    Both sides are closed. FLO is the shape that neither of the two energy speeds fits: it is
+    not a mandated consumer-data holder and it is not a system operator with open market data.
+    Its openness is entirely machine-to-machine and contractual - OCPP down to the hardware,
+    OCPI sideways to peer networks, OpenADR up to utility DERMS platforms - and none of those
+    three seams is exposed to an unaffiliated developer.
+
+  accessGate: partner-only
+  accessGateDetail: >-
+    There is no self-serve path and no application form for API access. What a developer must
+    actually do: contact FLO commercially. The utilities page and every product page route to
+    a "Let's get started" lead-capture form (name, company, state, charging solution use) or
+    to 1-855-543-8356 / the partner program at https://www.flo.com/company/find-a-partner/
+    (HTTP 200). Integration then happens as a negotiated arrangement - the EnergyHub
+    integration is the public example. A station owner who wants their own data logs in to
+    account.flo.com; that is customer-account access, not developer access.
+  authModel: >-
+    No API authentication scheme is documented, because no API is documented. The only
+    published authentication surfaces are human: the account.flo.com web login (ASP.NET
+    forms login at /Account/Login) for drivers and station owners, and in-station driver
+    authentication via the FLO mobile app, RFID card, credit card (FLO states its
+    network-connected stations include a PCI-DSS compliant payment system), or GM Plug and
+    Charge autocharge. No OAuth 2.0, no OIDC discovery, no API key issuance, no mTLS and no
+    accreditation regime is published.
+
+findings:
+  summary: |
+    FLO has no public developer program. Every conventional developer entry point was probed
+    and none exists: developer.flo.com, developers.flo.com, api.flo.com, docs.flo.com and
+    data.flo.com all fail DNS/TLS (curl exit, HTTP 000); /developers, /api, /openapi.json,
+    /swagger.json and /api-docs all return HTTP 404; /.well-known/security.txt returns 404.
+    The complete flo.com sitemap (103 pages) contains no developer, API, documentation-portal
+    or open-data page. No GitHub organization was found (api.github.com/orgs/flo-ev,
+    /orgs/floev and /orgs/addenergie all returned HTTP 404).
+
+    FLO is nonetheless a genuinely standards-participating company - just not at the layer
+    that produces a public API. It implements OCPP 1.6J in its hardware, names OCPI as its
+    roaming protocol in its own words, and integrates with utility DERMS platforms over
+    OpenADR 2.0. The single reference to "FLO's flexible API" lives in one marketing sentence
+    on the utilities page with no artifact behind it. That sentence is exactly the trap this
+    review exists to avoid: a stated capability is not a documented API, and a roaming
+    protocol named in a blog post is not a callable endpoint.
+
+    On the mandate question, FLO is a clean negative and worth recording as such. Ontario's
+    Green Button regulation is one of the few real, province-level, standard-specific data
+    mandates in the world - and it binds utilities. FLO, the largest Canadian-headquartered
+    name in EV charging, sits just outside its perimeter, alongside every other CPO. The
+    mandate did not travel to the charging layer, and nothing voluntary filled the gap.
+  productApiFamily:
+    note: >-
+      Represented faithfully from FLO's own product segmentation. NONE of these are exposed as
+      documented APIs; they are software products with web/mobile interfaces.
+    segments:
+    - name: Station management (Owner's Portal / CSNMS)
+      surface: Web portal
+      url: https://www.flo.com/products/software/owners-portal/
+      httpStatus: 200
+      capabilities: [diagnostics, monitoring, access restriction, billing modes, usage/uptime/energy reporting]
+    - name: Global Management Services (GMS)
+      surface: Managed service
+      url: https://www.flo.com/products/services/global-management-services/
+      httpStatus: 200
+      capabilities: [24/7 remote monitoring, firmware/software updates, integrated payment/billing, real-time station mapping, session authentication]
+    - name: Energy management (PowerSharing / PowerLimiting)
+      surface: Station firmware + portal configuration
+      url: https://www.flo.com/products/software/energy-management/
+      httpStatus: 200
+      capabilities: [dynamic load sharing across stations on a circuit or panel, fixed/scheduled/dynamic power limits, demand-charge reduction]
+    - name: Driver app
+      surface: Mobile app
+      url: https://www.flo.com/products/software/flo-mobile-app/
+      httpStatus: 200
+      capabilities: [station finding, session start/stop, home charger control, member perks]
+    - name: Utility / DER integration
+      surface: Partner integration (OpenADR 2.0 or unpublished "FLO API")
+      url: https://www.flo.com/business/utilities/
+      httpStatus: 200
+      capabilities: [demand response, managed charging, time-of-use shifting]
+    - name: Roaming
+      surface: Bilateral network agreements described as using OCPI
+      url: https://www.flo.com/company/partner-networks/
+      httpStatus: 200
+      capabilities: [cross-network charger availability, session pricing, CDR/billing reconciliation]
+
+probes:
+- url: https://flo.com
+  httpStatus: 200
+  note: Redirects to https://www.flo.com/ (WordPress).
+- url: https://www.flo.com/
+  httpStatus: 200
+  title: EV Charging Stations For The US And Canada | FLO
+- url: https://developer.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://developers.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://api.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://docs.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://data.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://emobility.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://mobile-api.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://api.emobility.flo.com
+  httpStatus: 000
+  note: Does not resolve.
+- url: https://www.flo.com/developers
+  httpStatus: 404
+- url: https://www.flo.com/api
+  httpStatus: 404
+- url: https://www.flo.com/openapi.json
+  httpStatus: 404
+- url: https://www.flo.com/swagger.json
+  httpStatus: 404
+- url: https://www.flo.com/api-docs
+  httpStatus: 404
+- url: https://www.flo.com/.well-known/security.txt
+  httpStatus: 404
+- url: https://www.flo.com/.well-known/openid-configuration
+  httpStatus: 404
+- url: https://account.flo.com/
+  httpStatus: 200
+  note: Redirects to /Account/Login?ReturnUrl=%2F - customer login, not a developer portal.
+- url: https://account.flo.com/.well-known/openid-configuration
+  httpStatus: 200
+  note: Returns the SPA HTML shell (New Relic instrumented ASP.NET page), NOT a JSON OIDC discovery document. No OIDC metadata is served.
+- url: https://store.flo.com
+  httpStatus: 200
+  note: Hardware e-commerce store.
+- url: https://www.addenergie.com
+  httpStatus: 200
+  note: Redirects to https://www.flo.com/ - confirms the AddEnergie lineage.
+- url: https://www.flo.com/robots.txt
+  httpStatus: 200
+  note: 'Points to sitemap index: https://www.flo.com/sitemap_index.xml'
+- url: https://www.flo.com/page-sitemap.xml
+  httpStatus: 200
+  note: 103 pages enumerated. Zero developer/API/open-data pages.
+- url: https://api.github.com/orgs/flo-ev
+  httpStatus: 404
+- url: https://api.github.com/orgs/floev
+  httpStatus: 404
+- url: https://api.github.com/orgs/addenergie
+  httpStatus: 404
+
+companyFacts:
+  founded: 2009
+  formerName: AddEnergie Technologies
+  headquarters: 100-2800 rue Louis Lumiere, Quebec, QC G1P 0A4, Canada
+  otherSites:
+  - Shawinigan, QC assembly plant
+  - Montreal, QC office
+  - Burnaby, BC office
+  - Auburn Hills, MI office and assembly plant
+  ceo: Louis Tremblay (co-founder, President and CEO)
+  selfReportedScale:
+    publicChargersAccessibleToMembers: 110000+
+    totalStations: 140000+
+    members: 680000+
+    sessionsPerMonth: ~2000000
+    upTimeTarget: '>98%'
+  factsSource: https://www.flo.com/about/
+  factsHttpStatus: 200
+  factsNote: Scale figures are FLO's own published claims and were not independently verified.
+
+sources:
+- url: https://www.flo.com/business/utilities/
+  type: Documentation
+  httpStatus: 200
+  note: Only first-party mention of a FLO API; names OpenADR 2.0.
+- url: https://www.flo.com/insights/ev-charging-roaming/
+  type: Documentation
+  httpStatus: 200
+  note: FLO names OCPI as the roaming protocol.
+- url: https://www.flo.com/products/hardware/smartdc/
+  type: Documentation
+  httpStatus: 200
+  note: Spec block states OCPP1.6J.
+- url: https://www.flo.com/products/hardware/ultra/
+  type: Documentation
+  httpStatus: 200
+  note: '"With OCPP integration, you have the freedom to choose."'
+- url: https://www.flo.com/company/partner-networks/
+  type: Documentation
+  httpStatus: 200
+  note: Roaming partner list; "Interoperable and open" commitment statement.
+- url: https://www.flo.com/products/software/owners-portal/
+  type: Documentation
+  httpStatus: 200
+- url: https://www.flo.com/products/services/global-management-services/
+  type: Documentation
+  httpStatus: 200
+- url: https://www.flo.com/news/flo-enables-gm-plug-and-charge/
+  type: PressRelease
+  httpStatus: 200
+- url: https://www.nasdaq.com/press-release/energyhub-and-flo-partner-help-utilities-manage-ev-charging-load-2025-05-13
+  type: PressRelease
+  httpStatus: not-probed
+  note: >-
+    Third-party wire copy of the 2025-05-13 EnergyHub/FLO announcement describing direct
+    integration via OpenADR. Used only to corroborate the OpenADR claim FLO makes on its own
+    utilities page; not treated as a FLO-published artifact.
+
+actions:
+  openapiHarvested: false
+  specsCount: 0
+  openapiDirectory: null
+  apisListed: 0
+  apisYmlCreated: true
+  reason: >-
+    No machine-readable API contract of any kind exists to harvest. Nothing was fabricated:
+    apis[] is deliberately empty because FLO documents no public API, and the openapi/
+    directory was omitted because no spec was found. All real, verified public surfaces are
+    recorded in the common[] block of apis.yml.

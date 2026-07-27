@@ -1,0 +1,99 @@
+aid: flo-ev
+url: https://raw.githubusercontent.com/api-evangelist/flo-ev/refs/heads/main/apis.yml
+name: FLO
+kind: company
+description: >-
+  FLO is a Quebec City headquartered electric vehicle charging company, founded in 2009 as
+  AddEnergie (addenergie.com now redirects to flo.com), that designs and manufactures its own
+  Level 2 and DC fast charging hardware and operates one of the largest public charging networks
+  in North America. FLO sits on the demand side of the electricity value chain rather than inside
+  the regulated utility layer: it is a charge point operator and e-mobility service provider, not
+  a distributor, transmitter or retailer, so Canada's energy-data obligations do not reach it.
+  Ontario's Green Button regulation binds Ontario electricity and natural gas utilities, and
+  Australia's Consumer Data Right for energy is a different jurisdiction entirely; neither applies
+  to FLO, and FLO publishes no consumer energy data API of any kind. Its API posture is closed and
+  partner-mediated. flo.com has no developer subdomain and no published API reference:
+  developer.flo.com, developers.flo.com, api.flo.com, docs.flo.com and data.flo.com all fail to
+  resolve, and /developers, /api, /openapi.json, /swagger.json and /api-docs all return 404. FLO
+  does name real interoperability standards on its own pages - OCPP 1.6J on the station-to-network
+  side, OCPI for roaming with partner networks, and OpenADR 2.0 alongside "FLO's flexible API" for
+  utility demand response and smart grid integration - but each of those is reached through a
+  commercial agreement rather than a signup form. Customer charging and session data is reachable
+  only by the account holder through the account.flo.com login, and FLO publishes no open market,
+  grid or station-location data feed under its own name.
+accessModel:
+  pricing: unknown
+  onboarding: partner-only
+  trial: false
+  try_now: false
+  public: false
+  label: No public developer program - partner/commercial integration only
+  confidence: high
+  source:
+  - website
+  generated: '2026-07-27'
+  method: manual
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/flo-ev.png
+tags:
+- Energy
+- Canada
+- EV Charging
+- Electricity
+- Grid
+- Demand Response
+- Interoperability
+- OCPP
+- OCPI
+- OpenADR
+- Charge Point Operator
+- Quebec
+created: '2026-07-27'
+modified: '2026-07-27'
+specificationVersion: '0.19'
+apis: []
+common:
+- type: Website
+  url: https://www.flo.com/
+- type: Blog
+  url: https://www.flo.com/ev-charging-insights/
+- type: BlogRSS
+  url: https://www.flo.com/feed/
+- type: PressRoom
+  url: https://www.flo.com/news-press/
+- type: MediaRoom
+  url: https://www.flo.com/media-room/
+- type: Support
+  url: https://www.flo.com/support/
+- type: Documentation
+  url: https://www.flo.com/business/product-documentation/
+  name: Product Documentation
+  description: Hardware spec sheets, installation guides and user guides. Product literature only - no API reference is published.
+- type: Login
+  url: https://account.flo.com/
+  name: FLO Account
+  description: Customer/station-owner login. Not a developer portal; no self-serve API key issuance is published.
+- type: Partners
+  url: https://www.flo.com/company/partner-networks/
+  name: Partner Networks
+  description: Roaming partners (BC Hydro EV, ChargePoint, eCharge Network, Electric Circuit, Shell Recharge, SWTCH).
+- type: Documentation
+  url: https://www.flo.com/insights/ev-charging-roaming/
+  name: EV Charging Roaming
+  description: FLO's own explainer naming the Open Charge Point Interface (OCPI) as the roaming communication protocol.
+- type: Documentation
+  url: https://www.flo.com/business/utilities/
+  name: FLO for Utilities
+  description: States that FLO supports utility demand response and smart grid integration "Through OpenADR 2.0 or FLO's flexible API". No endpoint, reference or onboarding path is published.
+- type: PrivacyPolicy
+  url: https://www.flo.com/privacy-policy/
+- type: TermsOfService
+  url: https://www.flo.com/terms-conditions/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/floevcharging/
+- type: Twitter
+  url: https://twitter.com/FLOevcharging
+- type: Patents
+  url: https://www.flo.com/patents/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
