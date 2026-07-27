@@ -1,0 +1,87 @@
+generated: '2026-07-27'
+method: probed
+source: live DNS/TLS/HTTP probes of every flo.com host discovered this round
+hosts:
+- host: www.flo.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  6 08:55:19 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: account.flo.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 14 23:59:59 2026 GMT
+  role: driver / station-owner web login
+- host: store.flo.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 16 14:08:02 2026 GMT
+  role: Shopify commerce (public MCP + JSON product feeds)
+- host: trust.flo.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  8 18:01:38 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  role: Vanta trust center
+- host: network.flo.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 21 18:26:22 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+  hsts_include_subdomains: true
+  role: Salesforce Experience Cloud community portal (OIDC discovery live)
+- host: auth.flo.com
+  https: true
+  role: AWS API Gateway (private FLO auth service - 403 Missing Authentication Token on every path)
+- host: mqtt-production.ems.flo.com
+  https: true
+  role: FLO energy-management service (JSON 404 with traceId on every path)
+domains:
+- domain: flo.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+subdomain_census:
+  method: Certificate Transparency (api.certspotter.com, include_subdomains=true)
+  date: '2026-07-27'
+  flo_com_names_observed: 40
+  operational_hosts:
+  - {host: auth.flo.com, resolves: true, http: 403}
+  - {host: authorize.flo.com, resolves: true, http: 200, title: EV Driver Consumer Portal}
+  - {host: station.flo.com, resolves: true, http: 200, title: FLO}
+  - {host: configuration.flo.com, resolves: true, http: 404}
+  - {host: connectionservice.flo.com, resolves: true, http: 000}
+  - {host: csnms.flo.com, resolves: true, http: 404, note: Charging Station Network Management System - nginx, no public route}
+  - {host: cc.flo.com, resolves: true, http: 200, title: FLO - Web payment}
+  - {host: edge.flo.com, resolves: true, http: 400}
+  - {host: mqtt-production.ems.flo.com, resolves: true, http: 404}
+  - {host: helpdesk.flo.com, resolves: true, http: 302, note: Freshdesk support portal}
+  - {host: onboarding.flo.com, resolves: true, http: 301}
+  - {host: panel.flo.com, resolves: true, http: 302}
+  - {host: tools.flo.com, resolves: true, http: 403}
+  - {host: 'store.{us,en,fr}.flo.com', resolves: true, note: Shopify regional storefronts}
+  non_resolving_developer_names:
+  - api.flo.com
+  - developer.flo.com
+  - developers.flo.com
+  - docs.flo.com
+  - data.flo.com
+  - emobility.flo.com
+  - ocpi.flo.com
+  - emsp.flo.com
+  - cpo.flo.com
+  - status.flo.com
+  - security.flo.com
+  - partner.flo.com
+  - partners.flo.com
+  - portal.flo.com
+  note: >-
+    FLO runs substantial API infrastructure (an AWS API Gateway at auth.flo.com,
+    a CSNMS host, an EMS/MQTT host, an edge host) - all of it private. Every
+    developer-facing name a third party would try does not resolve.

@@ -1,0 +1,94 @@
+generated: '2026-07-27'
+method: searched
+source: live probes of every flo.com host discovered in this round
+note: >-
+  FLO publishes no first-party developer API, but three of its hosts serve real
+  machine-readable discovery documents from the SaaS platforms FLO runs on:
+  store.flo.com (Shopify commerce) and network.flo.com (Salesforce Experience
+  Cloud). Those documents are recorded verbatim below because they are live,
+  anonymous and served under a flo.com host - but they describe PLATFORM identity
+  infrastructure, not a FLO-authored API program. trust.flo.com is a Vanta-hosted
+  single-page app whose catch-all route returns HTTP 200 with an HTML shell for
+  every path, so its /.well-known/ "200"s are false positives and are recorded as
+  such.
+hosts:
+- host: https://www.flo.com
+  platform: WordPress (Cloudflare)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://account.flo.com
+  platform: ASP.NET customer account (driver / station-owner login)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://store.flo.com
+  platform: Shopify (FLO hardware and accessories store)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: flo-ev-store-openid-configuration.json
+    note: >-
+      OIDC discovery for Shopify Customer Accounts. issuer
+      https://shopify.com/authentication/85271511350; scopes_supported includes
+      customer-account-api:full and customer-account-mcp-api:full.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: flo-ev-store-oauth-authorization-server.json
+    note: RFC 8414 authorization server metadata (identical payload to the OIDC document).
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: flo-ev-store-oauth-protected-resource.json
+    note: >-
+      RFC 9728 protected-resource metadata - declares store.flo.com as the
+      resource and shopify.com/authentication/85271511350 as its authorization
+      server, bearer token in the header. This is the document an MCP client
+      reads before authenticating against https://store.flo.com/api/mcp.
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://network.flo.com
+  platform: Salesforce Experience Cloud (partner / community portal, login-gated)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: flo-ev-network-openid-configuration.json
+    note: >-
+      Full OIDC discovery for the Salesforce-hosted FLO community. issuer
+      https://network.flo.com with authorization, token, userinfo, revocation,
+      introspection, registration and end-session endpoints, JWKS at
+      https://network.flo.com/id/keys, and the standard Salesforce platform
+      scope set. Scopes are Salesforce platform scopes, not FLO-defined scopes.
+  - {path: /.well-known/security.txt, status: 401}
+  - {path: /.well-known/oauth-authorization-server, status: 401}
+  - {path: /.well-known/oauth-protected-resource, status: 401}
+  - {path: /.well-known/api-catalog, status: 401}
+  - {path: /.well-known/ai-plugin.json, status: 401}
+- host: https://trust.flo.com
+  platform: Vanta Trust Center (single-page app)
+  note: >-
+    Every path returns HTTP 200 with the same HTML shell - these are SPA
+    catch-all responses, NOT discovery documents. No JSON was served for any
+    /.well-known/ path.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, content_type: text/html, real: false}
+  - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, real: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, real: false}
+  - {path: /.well-known/api-catalog, status: 200, content_type: text/html, real: false}
+security_txt: none
+security_txt_note: >-
+  No RFC 9116 security.txt is published on any flo.com host (www 404,
+  account 404, store 404, network 401, trust HTML shell).

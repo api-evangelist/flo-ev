@@ -26,7 +26,28 @@ FLO is a Quebec City headquartered electric vehicle charging company, founded in
 
 ## APIs
 
-No public, documented APIs. FLO publishes no developer portal, no API reference and no machine-readable contract. See `review.yml` for the full probe log and the mandate/standard/access findings.
+No public, documented **first-party** API. FLO publishes no developer portal and no API reference, and no OpenAPI, AsyncAPI or GraphQL document exists on any flo.com host. See `review.yml` for the original probe log and the mandate/standard/access findings.
+
+A second enrichment round (2026-07-27) hunted harder and did find live machine-readable surfaces on flo.com hosts — all **platform-provided**, none FLO-authored:
+
+- **[FLO Store MCP server](https://store.flo.com/api/mcp)** — a live Shopify storefront MCP server (protocol `2025-06-18`, serverInfo `storefront-renderer` 0.1.0). `tools/list` answers anonymously with five tools: `search_catalog`, `get_product_details`, `get_cart`, `update_cart`, `search_shop_policies_and_faqs`. Verbatim schemas in `mcp/flo-ev-store-mcp-tools.json`.
+- **Public JSON feeds** — `https://store.flo.com/products.json` and `/collections.json` (HTTP 200).
+- **Discovery documents** — Shopify OIDC + RFC 8414 + RFC 9728 on `store.flo.com`; Salesforce Experience Cloud OIDC on `network.flo.com` (full endpoint set + JWKS + 36 platform scopes).
+- **[Trust center](https://trust.flo.com/)** — Vanta-hosted; FLO holds **SOC 2 Type 2** (BARR Advisory, announced 2024-10-22).
+
+FLO also runs real but entirely private API infrastructure: `auth.flo.com` is an AWS API Gateway that answers every path with `403 {"message":"Missing Authentication Token"}`, alongside `csnms.flo.com` (station network management) and `mqtt-production.ems.flo.com` (energy management). Every developer-facing name a third party would try — `api.`, `developer.`, `developers.`, `docs.`, `data.`, `ocpi.`, `status.` — does not resolve. The charging network itself stays closed and partner-mediated.
+
+## Artifacts
+
+- `mcp/` — MCP server manifest + verbatim `tools/list` capture
+- `well-known/` — /.well-known/ probe index across five hosts + raw discovery documents
+- `authentication/`, `scopes/` — identity profile and every OAuth scope advertised on a flo.com host (all platform-defined; FLO defines none)
+- `conformance/` — OCPP 1.6J, OCPI, OpenADR 2.0, Plug and Charge, OIDC/OAuth/MCP, plus the explicit negatives
+- `errors/` — the error envelopes FLO's live hosts actually return
+- `lifecycle/` — versioning, deprecation, SLA and status-page findings (no status page exists)
+- `security/` — TLS/HSTS/DNS posture, certificate-transparency subdomain census, trust center
+- `skills/` — agent skill for the storefront MCP server
+- `llms/` — generated llms.txt (FLO publishes none)
 
 ## Energy Data Posture
 

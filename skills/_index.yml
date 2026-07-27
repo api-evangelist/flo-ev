@@ -1,0 +1,14 @@
+generated: '2026-07-27'
+method: generated
+note: >-
+  FLO publishes no OpenAPI, so no skill can be grounded in operationIds. The one
+  skill here is grounded in the verbatim MCP tools/list response captured from
+  the live storefront MCP server (mcp/flo-ev-store-mcp-tools.json). No skill was
+  authored for FLO's charging, roaming or demand-response surfaces because those
+  have no callable public contract.
+skills:
+- file: flo-ev-shop-flo-store.md
+  name: Shop the FLO store with MCP
+  api: mcp/flo-ev-mcp.yml
+  surface: https://store.flo.com/api/mcp
+  operations: [search_catalog, get_product_details, get_cart, update_cart, search_shop_policies_and_faqs]

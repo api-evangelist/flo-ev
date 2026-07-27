@@ -1,0 +1,123 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  FLO's own product/insight pages plus live discovery documents and protocol
+  probes performed 2026-07-27
+note: >-
+  FLO is a standards-participating company at the machine-to-machine layer
+  (OCPP down to the hardware, OCPI sideways to peer networks, OpenADR up to
+  utility DERMS) and a standards CONSUMER at the web layer (OIDC, OAuth 2.0,
+  MCP - all inherited from the Shopify and Salesforce platforms it hosts on
+  flo.com names). It conforms to no API-design standard of its own because it
+  publishes no API of its own.
+standards:
+- id: ocpp-1.6j
+  name: Open Charge Point Protocol 1.6J
+  conforms: true
+  layer: station-to-network
+  evidence: 'FLO SmartDC spec sheet networking block states "OCPP1.6J"'
+  source: https://www.flo.com/products/hardware/smartdc/
+  note: Hardware interoperability - a purchased FLO station can be operated on a third-party network. Not a FLO-published API.
+- id: ocpi
+  name: Open Charge Point Interface
+  conforms: true
+  layer: network-to-network roaming
+  evidence: FLO names OCPI as the roaming communication protocol in its own roaming explainer and links to evroaming.org
+  source: https://www.flo.com/insights/ev-charging-roaming/
+  note: >-
+    No OCPI credentials/versions endpoint, party ID or base URL is published.
+    Probed ocpi.flo.com, emsp.flo.com and cpo.flo.com - none resolve. Roaming is
+    bilateral and contractual.
+- id: openadr-2.0
+  name: OpenADR 2.0
+  conforms: true
+  layer: utility demand response / smart grid
+  evidence: '"Through OpenADR 2.0 or FLO''s flexible API, we support integration with utility demand response and smart grid programs to control EV charging stations."'
+  source: https://www.flo.com/business/utilities/
+  note: The only first-party mention of a "FLO API" anywhere on flo.com. No endpoint, reference or onboarding path accompanies it.
+- id: plug-and-charge
+  name: Plug and Charge (CCS connector, GM)
+  conforms: true
+  layer: driver authentication at the charger
+  evidence: FLO describes "FLO's autocharge software" working with the Combined Charging System connector and GM's myBrand apps
+  source: https://www.flo.com/news/flo-enables-gm-plug-and-charge/
+  note: ISO 15118 is NOT named by FLO on that page and is not attributed here.
+- id: oidc-discovery
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  layer: web identity (platform-inherited)
+  evidence: 'Valid JSON discovery documents at https://store.flo.com/.well-known/openid-configuration (Shopify) and https://network.flo.com/.well-known/openid-configuration (Salesforce), both HTTP 200'
+  source: well-known/flo-ev-well-known.yml
+- id: rfc8414-oauth-authorization-server-metadata
+  name: RFC 8414 OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  layer: web identity (platform-inherited)
+  evidence: 'https://store.flo.com/.well-known/oauth-authorization-server returns valid JSON metadata (HTTP 200)'
+  source: well-known/flo-ev-store-oauth-authorization-server.json
+- id: rfc9728-oauth-protected-resource-metadata
+  name: RFC 9728 OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  layer: web identity (platform-inherited)
+  evidence: 'https://store.flo.com/.well-known/oauth-protected-resource declares store.flo.com as the resource, shopify.com as its authorization server, bearer in header'
+  source: well-known/flo-ev-store-oauth-protected-resource.json
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-06-18'
+  conforms: true
+  layer: agent access (platform-inherited)
+  evidence: 'POST https://store.flo.com/api/mcp tools/list returns HTTP 200 with 5 tools and full JSON Schema inputs; initialize reports protocolVersion 2025-06-18, serverInfo storefront-renderer 0.1.0'
+  source: mcp/flo-ev-mcp.yml
+- id: ucp-catalog-search
+  name: Universal Commerce Protocol - catalog search capability (dev.ucp.shopping.catalog.search)
+  conforms: true
+  layer: agent commerce (platform-inherited)
+  evidence: The search_catalog tool description states its response "conforms to the UCP catalog search capability (dev.ucp.shopping.catalog.search)"
+  source: mcp/flo-ev-store-mcp-tools.json
+- id: soc2-type2
+  name: SOC 2 Type 2
+  conforms: true
+  layer: organizational security
+  evidence: FLO press release, audited by BARR Advisory, announced 2024-10-22; trust center at https://trust.flo.com/
+  source: security/flo-ev-trust-center.yml
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: 404 on www.flo.com, account.flo.com and store.flo.com; 401 on network.flo.com; HTML shell on trust.flo.com
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document found on any flo.com host. Probed /openapi.json,
+    /openapi.yaml, /swagger.json, /swagger/v1/swagger.json, /api-docs,
+    /v1/openapi.json and /docs against www, auth, csnms, edge and
+    mqtt-production.ems - all 403/404/400.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: No AsyncAPI document and no publicly documented webhook or event surface.
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: >-
+    Observed error envelopes are platform-native, not problem+json - AWS API
+    Gateway {"message":...} on auth.flo.com, {"message":...,"traceId":...} on
+    mqtt-production.ems.flo.com, and Shopify {"errors":[{"message":...,"extensions":{"code":...}}]}
+    on store.flo.com.
+- id: greenbutton-espi
+  name: Green Button / ESPI
+  conforms: false
+  applicable: false
+  evidence: >-
+    Ontario's Green Button regulation binds electricity and natural gas
+    utilities. FLO is a charge point operator, not a licensed distributor or
+    retailer, so the mandate does not attach. No Green Button or ESPI surface
+    exists on flo.com.
+- id: cdr-energy
+  name: Consumer Data Right (energy, Australia)
+  conforms: false
+  applicable: false
+  evidence: Different jurisdiction; FLO has no Australian retail energy operation and is not a designated data holder.
+- id: iso-15118
+  name: ISO 15118
+  conforms: unknown
+  evidence: Not named by FLO on any page probed. Its Plug and Charge page names only the CCS connector and GM's apps.

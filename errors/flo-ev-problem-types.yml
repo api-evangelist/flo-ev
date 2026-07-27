@@ -1,0 +1,65 @@
+generated: '2026-07-27'
+method: probed
+source: live HTTP probes of flo.com hosts, 2026-07-27
+format: platform-native
+format_note: >-
+  Nothing here is derived from an OpenAPI spec - FLO publishes none. These are
+  the error envelopes actually returned by FLO's live hosts, captured verbatim so
+  an agent knows what failure looks like on each surface. None of them is RFC 9457
+  application/problem+json.
+envelopes:
+- surface: https://auth.flo.com/
+  platform: AWS API Gateway
+  status: 403
+  content_type: application/json
+  body: '{"message":"Missing Authentication Token"}'
+  fields: [message]
+  meaning: >-
+    Returned for every path probed (/, /openapi.json, /swagger.json, /api-docs,
+    /docs, /health, /.well-known/*). In API Gateway this is the response for an
+    unmatched route or a route requiring an authorizer - it does not confirm the
+    existence of any specific resource.
+  retriable: false
+- surface: https://mqtt-production.ems.flo.com/
+  platform: FLO energy-management service
+  status: 404
+  content_type: application/json
+  body: '{"message":"Not Found","traceId":"<uuid>"}'
+  fields: [message, traceId]
+  meaning: No public route. The traceId is a correlation id an operator could use in a support request.
+  retriable: false
+- surface: https://store.flo.com/mcp
+  platform: Shopify
+  status: 503
+  content_type: application/json
+  body: '{"errors":[{"message":"There was a problem loading this website. Please try again.","extensions":{"code":"SERVICE_UNAVAILABLE"}}]}'
+  fields: ['errors[].message', 'errors[].extensions.code']
+  meaning: >-
+    GraphQL-shaped error envelope. Note the correct MCP path on this host is
+    /api/mcp; /mcp is not a valid route.
+  retriable: true
+- surface: https://network.flo.com/services/oauth2/register
+  platform: Salesforce Experience Cloud
+  status: 401
+  content_type: application/json
+  body: '{"error":"invalid_client","error_description":"invalid client credentials"}'
+  fields: [error, error_description]
+  meaning: RFC 6749 OAuth error envelope. Dynamic client registration is closed to unaffiliated developers.
+  retriable: false
+- surface: https://network.flo.com/.well-known/security.txt
+  platform: Salesforce Experience Cloud
+  status: 401
+  content_type: text/html
+  meaning: The community org returns an HTML login challenge rather than a JSON error for unauthenticated non-API paths.
+  retriable: false
+- surface: https://www.flo.com/<unknown-path>
+  platform: WordPress behind Cloudflare
+  status: 404
+  content_type: text/html
+  meaning: >-
+    HTML 404 page. Note that www.flo.com also serves HTTP 403 Cloudflare bot
+    challenges to non-browser clients - a 403 from www.flo.com means "blocked",
+    not "page missing".
+  retriable: false
+problems: []
+problems_note: No RFC 9457 problem types are published by FLO.

@@ -1,0 +1,74 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  https://store.flo.com/.well-known/openid-configuration and
+  https://network.flo.com/.well-known/openid-configuration (both HTTP 200,
+  fetched 2026-07-27)
+note: >-
+  FLO defines no OAuth scopes of its own. Every scope below is advertised by a
+  platform FLO hosts under a flo.com name - Shopify Customer Accounts on
+  store.flo.com and Salesforce Experience Cloud on network.flo.com - and is
+  recorded because it is the only real, machine-readable authorization surface
+  in FLO's estate. None of these scopes grants access to charging sessions,
+  station telemetry, roaming (OCPI) or demand response (OpenADR); those remain
+  partner-mediated with no published authorization model.
+schemes:
+- name: shopify-customer-accounts
+  source: well-known/flo-ev-store-openid-configuration.json
+  issuer: https://shopify.com/authentication/85271511350
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://shopify.com/authentication/85271511350/oauth/authorize
+    tokenUrl: https://shopify.com/authentication/85271511350/oauth/token
+- name: salesforce-experience-cloud
+  source: well-known/flo-ev-network-openid-configuration.json
+  issuer: https://network.flo.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://network.flo.com/services/oauth2/authorize
+    tokenUrl: https://network.flo.com/services/oauth2/token
+scopes:
+- {scope: openid, description: OIDC authentication, flows: [authorizationCode], sources: [store.flo.com, network.flo.com]}
+- {scope: email, description: Email address claim, flows: [authorizationCode], sources: [store.flo.com, network.flo.com]}
+- {scope: 'customer-account-api:full', description: Full access to the Shopify Customer Account API for the signed-in FLO store customer, flows: [authorizationCode], sources: [store.flo.com]}
+- {scope: 'customer-account-mcp-api:full', description: Full access to the Shopify Customer Account MCP API - the authenticated half of the MCP server at https://store.flo.com/api/mcp, flows: [authorizationCode], sources: [store.flo.com]}
+- {scope: profile, sources: [network.flo.com]}
+- {scope: address, sources: [network.flo.com]}
+- {scope: phone, sources: [network.flo.com]}
+- {scope: id, sources: [network.flo.com]}
+- {scope: api, description: Salesforce REST/SOAP platform API access, sources: [network.flo.com]}
+- {scope: web, sources: [network.flo.com]}
+- {scope: full, sources: [network.flo.com]}
+- {scope: refresh_token, sources: [network.flo.com]}
+- {scope: offline_access, sources: [network.flo.com]}
+- {scope: content, sources: [network.flo.com]}
+- {scope: custom_permissions, sources: [network.flo.com]}
+- {scope: lightning, sources: [network.flo.com]}
+- {scope: visualforce, sources: [network.flo.com]}
+- {scope: chatter_api, sources: [network.flo.com]}
+- {scope: chatbot_api, sources: [network.flo.com]}
+- {scope: interaction_api, sources: [network.flo.com]}
+- {scope: wave_api, sources: [network.flo.com]}
+- {scope: eclair_api, sources: [network.flo.com]}
+- {scope: pardot_api, sources: [network.flo.com]}
+- {scope: scrt_api, sources: [network.flo.com]}
+- {scope: sfap_api, sources: [network.flo.com]}
+- {scope: mcp_api, description: Salesforce platform MCP scope advertised by the community org (no MCP endpoint was reachable anonymously), sources: [network.flo.com]}
+- {scope: einstein_gpt_api, sources: [network.flo.com]}
+- {scope: cdp_api, sources: [network.flo.com]}
+- {scope: cdp_query_api, sources: [network.flo.com]}
+- {scope: cdp_profile_api, sources: [network.flo.com]}
+- {scope: cdp_ingest_api, sources: [network.flo.com]}
+- {scope: cdp_segment_api, sources: [network.flo.com]}
+- {scope: cdp_identityresolution_api, sources: [network.flo.com]}
+- {scope: cdp_calculated_insight_api, sources: [network.flo.com]}
+- {scope: data_cloud_user_claims, sources: [network.flo.com]}
+- {scope: user_registration_api, sources: [network.flo.com]}
+- {scope: pwdless_login_api, sources: [network.flo.com]}
+- {scope: forgot_password, sources: [network.flo.com]}
+counts:
+  total_unique: 38
+  flo_defined: 0
+  shopify_platform: 4
+  salesforce_platform: 36
+  shared_by_both: 2

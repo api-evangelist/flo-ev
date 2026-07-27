@@ -1,0 +1,86 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  live /.well-known/ discovery documents on store.flo.com and network.flo.com,
+  plus FLO's own published human-authentication surfaces
+note: >-
+  FLO documents no API authentication scheme, because it documents no API. What
+  IS live and machine-readable is the identity layer of the two SaaS platforms
+  FLO runs on its own hosts - Shopify Customer Accounts (store.flo.com) and
+  Salesforce Experience Cloud (network.flo.com). Both are captured here verbatim
+  from their discovery documents. Everything else in FLO's estate authenticates
+  humans, not programs.
+summary:
+  types: [openIdConnect, oauth2]
+  oauth2_flows: [authorizationCode]
+  api_key_in: []
+  first_party_api_auth: none-published
+schemes:
+- name: shopify-customer-accounts
+  type: openIdConnect
+  host: store.flo.com
+  issuer: https://shopify.com/authentication/85271511350
+  openIdConnectUrl: https://store.flo.com/.well-known/openid-configuration
+  authorizationUrl: https://shopify.com/authentication/85271511350/oauth/authorize
+  tokenUrl: https://shopify.com/authentication/85271511350/oauth/token
+  jwks_uri: https://shopify.com/authentication/85271511350/.well-known/jwks.json
+  response_types: [code]
+  token_endpoint_auth_methods: [client_secret_basic]
+  id_token_signing_alg: [RS256]
+  protected_resource: https://store.flo.com
+  protected_resource_metadata: https://store.flo.com/.well-known/oauth-protected-resource
+  bearer_methods: [header]
+  scopes: [openid, email, 'customer-account-api:full', 'customer-account-mcp-api:full']
+  sources: [well-known/flo-ev-store-openid-configuration.json, well-known/flo-ev-store-oauth-protected-resource.json]
+  covers: >-
+    FLO store customer accounts and authenticated use of the storefront MCP
+    server at https://store.flo.com/api/mcp. Anonymous callers can still list
+    tools and search the catalogue.
+- name: salesforce-experience-cloud
+  type: openIdConnect
+  host: network.flo.com
+  issuer: https://network.flo.com
+  openIdConnectUrl: https://network.flo.com/.well-known/openid-configuration
+  authorizationUrl: https://network.flo.com/services/oauth2/authorize
+  tokenUrl: https://network.flo.com/services/oauth2/token
+  userinfo_endpoint: https://network.flo.com/services/oauth2/userinfo
+  revocation_endpoint: https://network.flo.com/services/oauth2/revoke
+  introspection_endpoint: https://network.flo.com/services/oauth2/introspect
+  registration_endpoint: https://network.flo.com/services/oauth2/register
+  end_session_endpoint: https://network.flo.com/services/auth/idp/oidc/logout
+  jwks_uri: https://network.flo.com/id/keys
+  response_types: [code, token, 'token id_token']
+  id_token_signing_alg: [RS256]
+  dynamic_registration: gated
+  dynamic_registration_note: >-
+    POST /services/oauth2/register returns 401 invalid_client - open dynamic
+    client registration is not available to unaffiliated developers.
+  sources: [well-known/flo-ev-network-openid-configuration.json]
+  covers: >-
+    The login-gated FLO community/partner portal. Salesforce's own REST API
+    version index is anonymously readable at
+    https://network.flo.com/services/data/ (HTTP 200) but every data endpoint
+    behind it requires an authenticated Salesforce session.
+human_authentication:
+- surface: https://account.flo.com/Account/Login
+  kind: web form login (ASP.NET)
+  audience: drivers and station owners
+  status: 200
+- surface: FLO mobile app
+  kind: account login, then session start/stop at the station
+- surface: in-station driver authentication
+  kind: FLO mobile app, RFID card, credit card (FLO states PCI-DSS compliant payment), or GM Plug and Charge autocharge
+- surface: https://network.flo.com/login
+  kind: Salesforce Experience Cloud community login
+gated_api_infrastructure:
+- host: auth.flo.com
+  evidence: 'HTTP 403 {"message":"Missing Authentication Token"} on every path probed'
+  inference: AWS API Gateway fronting a private FLO authentication service. No public route, no spec, no documentation.
+- host: mqtt-production.ems.flo.com
+  evidence: 'HTTP 404 {"message":"Not Found","traceId":"..."} on every path probed'
+  inference: FLO energy-management-system service endpoint. Responds with a structured JSON error envelope but exposes no public route.
+not_found:
+  api_keys: no published issuance path
+  mtls: not published
+  oauth_scopes_defined_by_flo: none - every scope observed is a Shopify or Salesforce platform scope
+  security_txt: absent on all hosts

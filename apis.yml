@@ -20,7 +20,15 @@ description: >-
   utility demand response and smart grid integration - but each of those is reached through a
   commercial agreement rather than a signup form. Customer charging and session data is reachable
   only by the account holder through the account.flo.com login, and FLO publishes no open market,
-  grid or station-location data feed under its own name.
+  grid or station-location data feed under its own name. A second enrichment round in July 2026
+  did find live machine-readable surfaces on flo.com hosts, but all of them are platform-provided
+  rather than FLO-authored: a Shopify storefront MCP server with five tools at
+  store.flo.com/api/mcp plus public products.json and collections.json feeds, RFC 8414/9728 and
+  OIDC discovery documents on store.flo.com, Salesforce Experience Cloud OIDC discovery on
+  network.flo.com, and a Vanta trust center at trust.flo.com carrying FLO's SOC 2 Type 2. FLO
+  also runs real but entirely private API infrastructure - auth.flo.com is an AWS API Gateway
+  that answers every path with 403 Missing Authentication Token, alongside csnms.flo.com and an
+  EMS host - so the charging network itself remains closed.
 accessModel:
   pricing: unknown
   onboarding: partner-only
@@ -50,8 +58,76 @@ tags:
 created: '2026-07-27'
 modified: '2026-07-27'
 specificationVersion: '0.19'
-apis: []
+apis:
+- name: FLO Store (Shopify Storefront MCP)
+  description: >-
+    The only live, anonymously callable machine-readable surface in FLO's estate. FLO's
+    hardware and accessories store runs on Shopify, and that platform serves a Model Context
+    Protocol server at https://store.flo.com/api/mcp - protocol version 2025-06-18, serverInfo
+    "storefront-renderer" 0.1.0 - exposing five tools over FLO's own product catalogue, store
+    policies and cart/checkout flow, plus public JSON product and collection feeds. It is
+    platform-provided rather than FLO-authored, and it is commerce only: it says nothing about
+    charging sessions, station telemetry, roaming (OCPI) or demand response (OpenADR), all of
+    which remain partner-mediated with no published contract.
+  humanURL: https://store.flo.com/
+  baseURL: https://store.flo.com
+  tags:
+  - MCP
+  - Commerce
+  - EV Charging
+  - Agents
+  properties:
+  - type: MCPServer
+    url: mcp/flo-ev-mcp.yml
+    name: FLO Store MCP server
+  - type: AgentSkill
+    url: skills/flo-ev-shop-flo-store.md
+    name: Shop the FLO store with MCP
+  - type: WellKnown
+    url: well-known/flo-ev-well-known.yml
+  - type: Authentication
+    url: authentication/flo-ev-authentication.yml
+  - type: OAuthScopes
+    url: scopes/flo-ev-scopes.yml
+  - type: ErrorCatalog
+    url: errors/flo-ev-problem-types.yml
 common:
+- type: DomainSecurity
+  url: security/flo-ev-domain-security.yml
+- type: MCPServer
+  url: mcp/flo-ev-mcp.yml
+  name: FLO Store MCP server
+  description: Live Shopify storefront MCP server on store.flo.com - 5 tools, anonymous tools/list.
+- type: AgentSkill
+  url: skills/_index.yml
+  name: Agent skills
+- type: WellKnown
+  url: well-known/flo-ev-well-known.yml
+  name: Well-known discovery index
+- type: Authentication
+  url: authentication/flo-ev-authentication.yml
+- type: OAuthScopes
+  url: scopes/flo-ev-scopes.yml
+- type: ErrorCatalog
+  url: errors/flo-ev-problem-types.yml
+- type: Conformance
+  url: conformance/flo-ev-conformance.yml
+- type: Compliance
+  url: https://trust.flo.com/
+  name: FLO Trust Center
+  description: SOC 2 Type 2 (BARR Advisory, announced 2024-10-22); Vanta-hosted.
+- type: TrustCenter
+  url: security/flo-ev-trust-center.yml
+- type: Lifecycle
+  url: lifecycle/flo-ev-lifecycle.yml
+- type: LLMsTxt
+  url: llms/flo-ev-llms.txt
+- type: HelpCenter
+  url: https://helpdesk.flo.com/support/home
+  name: FLO Help Desk
+- type: Store
+  url: https://store.flo.com/
+  name: FLO Store
 - type: Website
   url: https://www.flo.com/
 - type: Blog

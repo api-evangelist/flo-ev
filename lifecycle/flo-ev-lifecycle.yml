@@ -1,0 +1,45 @@
+generated: '2026-07-27'
+method: searched
+source: live probes and FLO's own published pages, 2026-07-27
+note: >-
+  FLO publishes no API versioning policy, no deprecation policy and no developer
+  status page, because it publishes no API. What exists is recorded honestly
+  below: a self-reported network uptime target, a platform-versioned Salesforce
+  surface, and a dated MCP protocol version on the store.
+versioning:
+  scheme: none-published
+  flo_api: null
+  platform_versions:
+  - surface: https://network.flo.com/services/data/
+    status: 200
+    scheme: Salesforce REST API version index (v31.0 "Summer '14" onward), publicly readable
+    note: Version index only; every data endpoint behind it requires an authenticated Salesforce session.
+  - surface: https://store.flo.com/api/mcp
+    scheme: MCP protocol version
+    current: '2025-06-18'
+    server_version: storefront-renderer 0.1.0
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  note: No deprecation or sunset policy is published for any FLO surface.
+sla:
+  url: null
+  uptime_target: '>98%'
+  uptime_source: https://www.flo.com/about/
+  uptime_note: FLO's own published network-uptime claim for its charging network; not an API SLA and not independently verified.
+status_page: null
+status_page_probe:
+- {host: status.flo.com, dns: NXDOMAIN}
+- {url: 'https://www.flo.com/status/', status: not-published}
+status_page_note: >-
+  No status page was found. Network incidents are handled through the support
+  desk at https://helpdesk.flo.com/support/home (HTTP 200) and 1-855-543-8356.
+support:
+  helpdesk: https://helpdesk.flo.com/support/home
+  status: 200
+  platform: Freshdesk
+changelog: null
+changelog_note: >-
+  No dated product or API changelog. Product news is published as press releases
+  at https://www.flo.com/news-press/.
+deprecated_operations: []
