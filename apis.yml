@@ -57,7 +57,7 @@ tags:
 - Quebec
 created: '2026-07-27'
 modified: '2026-07-27'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - name: FLO Store (Shopify Storefront MCP)
   description: >-
