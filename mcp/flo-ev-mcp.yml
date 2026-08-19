@@ -3,20 +3,18 @@ method: searched
 status: published
 source: https://store.flo.com/api/mcp
 probe:
-  request: 'POST https://store.flo.com/api/mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  request: POST https://store.flo.com/api/mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}
   status: 200
   content_type: application/json
   authentication: none required for tools/list, search_catalog and get_product_details
   raw: flo-ev-store-mcp-tools.json
 first_party: false
-provenance_note: >-
-  This is a REAL, live, anonymously callable MCP server on a flo.com host - but it
-  is the Shopify Storefront MCP that ships with FLO's Shopify-hosted hardware and
-  accessories store, not an MCP server FLO authored. serverInfo reports
-  "storefront-renderer" version 0.1.0. It exposes FLO's own product catalogue,
-  store policies and cart/checkout flow to agents. FLO's charging-network,
-  station-management (CSNMS), roaming (OCPI) and demand-response (OpenADR)
-  surfaces have NO MCP server; they remain partner-mediated and undocumented.
+provenance_note: This is a REAL, live, anonymously callable MCP server on a flo.com host - but it is the
+  Shopify Storefront MCP that ships with FLO's Shopify-hosted hardware and accessories store, not an MCP
+  server FLO authored. serverInfo reports "storefront-renderer" version 0.1.0. It exposes FLO's own product
+  catalogue, store policies and cart/checkout flow to agents. FLO's charging-network, station-management
+  (CSNMS), roaming (OCPI) and demand-response (OpenADR) surfaces have NO MCP server; they remain partner-mediated
+  and undocumented.
 server:
   name: flo-store
   transport: http
@@ -26,9 +24,12 @@ server:
     name: storefront-renderer
     version: 0.1.0
   capabilities:
-    tools: {listChanged: true}
-    prompts: {listChanged: true}
-    resources: {listChanged: true}
+    tools:
+      listChanged: true
+    prompts:
+      listChanged: true
+    resources:
+      listChanged: true
     logging: {}
   prompts_listed: 0
   resources_listed: 0
@@ -39,42 +40,69 @@ server:
     scope_for_authenticated_use: customer-account-mcp-api:full
 tools:
 - name: search_catalog
-  description: >-
-    Search for products from the online store, hosted on Shopify. Natural-language
-    queries, filter criteria, or both; results are paginated by cursor. Response
-    conforms to the UCP catalog search capability (dev.ucp.shopping.catalog.search).
-  input_properties: [meta, catalog]
+  description: Search for products from the online store, hosted on Shopify. Natural-language queries,
+    filter criteria, or both; results are paginated by cursor. Response conforms to the UCP catalog search
+    capability (dev.ucp.shopping.catalog.search).
+  input_properties:
+  - meta
+  - catalog
   required: []
 - name: get_product_details
-  description: >-
-    Look up a product by ID; pass options to select a specific variant, and
-    country/language for localized pricing and copy.
-  input_properties: [product_id, options, country, language]
-  required: [product_id]
+  description: Look up a product by ID; pass options to select a specific variant, and country/language
+    for localized pricing and copy.
+  input_properties:
+  - product_id
+  - options
+  - country
+  - language
+  required:
+  - product_id
 - name: get_cart
-  description: >-
-    Get the cart including items, shipping options, discount info and the
-    checkout URL for a given cart id.
-  input_properties: [cart_id]
-  required: [cart_id]
+  description: Get the cart including items, shipping options, discount info and the checkout URL for
+    a given cart id.
+  input_properties:
+  - cart_id
+  required:
+  - cart_id
 - name: update_cart
-  description: >-
-    Perform updates to a cart - add/remove/update line items, buyer identity,
-    delivery addresses and options, discount and gift-card codes, and note.
-  input_properties: [cart_id, add_items, update_items, remove_line_ids, buyer_identity,
-    delivery_addresses_to_add, delivery_addresses_to_replace, selected_delivery_options,
-    discount_codes, gift_card_codes, note]
+  description: Perform updates to a cart - add/remove/update line items, buyer identity, delivery addresses
+    and options, discount and gift-card codes, and note.
+  input_properties:
+  - cart_id
+  - add_items
+  - update_items
+  - remove_line_ids
+  - buyer_identity
+  - delivery_addresses_to_add
+  - delivery_addresses_to_replace
+  - selected_delivery_options
+  - discount_codes
+  - gift_card_codes
+  - note
   required: []
 - name: search_shop_policies_and_faqs
   description: Used to get facts about the store's policies, products, or services.
-  input_properties: [query, context]
-  required: [query]
+  input_properties:
+  - query
+  - context
+  required:
+  - query
 input_schemas: mcp/flo-ev-store-mcp-tools.json
 crosswalk: none
-crosswalk_reason: >-
-  No tool crosswalk is emitted: FLO publishes no OpenAPI, so there are no
-  operationIds to bind these tools to. The tools' real input schemas are the
-  verbatim JSON Schemas captured in flo-ev-store-mcp-tools.json.
+crosswalk_reason: 'No tool crosswalk is emitted: FLO publishes no OpenAPI, so there are no operationIds
+  to bind these tools to. The tools'' real input schemas are the verbatim JSON Schemas captured in flo-ev-store-mcp-tools.json.'
 related_surfaces:
-- {url: 'https://store.flo.com/products.json', status: 200, kind: public JSON product feed (Shopify)}
-- {url: 'https://store.flo.com/collections.json', status: 200, kind: public JSON collection feed (Shopify)}
+- url: https://store.flo.com/products.json
+  status: 200
+  kind: public JSON product feed (Shopify)
+- url: https://store.flo.com/collections.json
+  status: 200
+  kind: public JSON collection feed (Shopify)
+deployment:
+  mode: remote
+  endpoint: https://store.flo.com/api/mcp
+  verified: probed
+  probe: live
+  tools: 5
+  checked: '2026-08-12'
+  source: catalog MCP census
