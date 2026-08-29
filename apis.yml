@@ -29,6 +29,17 @@ description: >-
   also runs real but entirely private API infrastructure - auth.flo.com is an AWS API Gateway
   that answers every path with 403 Missing Authentication Token, alongside csnms.flo.com and an
   EMS host - so the charging network itself remains closed.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: partner-only
