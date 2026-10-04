@@ -102,6 +102,9 @@ apis:
     url: scopes/flo-ev-scopes.yml
   - type: ErrorCatalog
     url: errors/flo-ev-problem-types.yml
+  x-surface: platform-generated
+  x-platform: shopify
+  x-platform-surface: storefront
 common:
 - type: DomainSecurity
   url: security/flo-ev-domain-security.yml
