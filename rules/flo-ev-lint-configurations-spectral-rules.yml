@@ -1,0 +1,28 @@
+# harvested from https://github.com/floevcharging/lint-configurations/blob/295a04f23c35acde97ad94433c898329d0f8fc67/spectral/spectral-public.yml on 2026-10-09 — a Spectral ruleset published in the provider's own GitHub repository (floevcharging/lint-configurations); found by GitHub code search, fetched verbatim
+x-method: harvested
+x-stamped: 2026-10-09
+x-source-url: https://github.com/floevcharging/lint-configurations/blob/295a04f23c35acde97ad94433c898329d0f8fc67/spectral/spectral-public.yml
+description: This set of rules is for APIs which are publicly accessible.
+formats:
+  - oas3 # OpenAPI 3.X
+  - aas2 # AsyncAPI 2.X (no 3.X yet)
+extends:
+  - spectral:oas
+  - spectral:asyncapi
+  - https://raw.githubusercontent.com/floevcharging/lint-configurations/main/spectral/standard-ruleset.yml
+rules:
+  asyncapi-info-contact: error
+  asyncapi-info-contact-properties: error
+  asyncapi-info-description: error
+  asyncapi-info-license: error
+  asyncapi-info-license-url: error
+  asyncapi-servers: error
+  asyncapi-unused-components-schema: error
+  contact-properties: error
+  info-contact: error
+  info-description: error
+  info-license: error
+  license-url: error
+  oas3-api-servers: error
+  oas3-unused-component: error
+  openapi-tags: error

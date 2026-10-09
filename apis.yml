@@ -184,6 +184,8 @@ common:
   url: https://twitter.com/FLOevcharging
 - type: Patents
   url: https://www.flo.com/patents/
+- type: SpectralRules
+  url: https://github.com/floevcharging/lint-configurations/blob/295a04f23c35acde97ad94433c898329d0f8fc67/spectral/spectral-public.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
