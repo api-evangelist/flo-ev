@@ -1,0 +1,33 @@
+edges:
+- partner_name: OpenADR
+  partner: null
+  type: contract
+  channel: network-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://products.openadr.org/
+  contract_reference:
+    register: OpenADR Alliance certified product database
+    spec_file: null
+    role: certified-product
+    registered_name: AddEnergie Technologies Inc.
+    matched_domain: flo.com
+    certified_products:
+    - product: AddEnergie OpenADR 2.0b VEN Client
+      type: VEN (client)
+      lapsed: false
+      profile: 2.0b
+      page: https://products.openadr.org/product/addenergie-technologies-inc-addenergy-openadr-2-0b-ven-client/
+    - product: FLO EV Charging OpenADR Server
+      type: VEN
+      lapsed: false
+      profile: 2.0b
+      page: https://products.openadr.org/product/flo-ev-charging-flo-ev-charging-openadr-server/
+    profiles:
+    - 2.0b
+    detected_by: sweep-energy.py
+    detected: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked:
+- https://products.openadr.org/
