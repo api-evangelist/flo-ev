@@ -1,4 +1,4 @@
-# FLO (flo-ev)
+# FLO
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,83 +64,109 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-FLO is a Quebec City headquartered electric vehicle charging company, founded in 2009 as AddEnergie (addenergie.com now redirects to flo.com), that designs and manufactures its own Level 2 and DC fast charging hardware and operates one of the largest public charging networks in North America. FLO sits on the demand side of the electricity value chain rather than inside the regulated utility layer: it is a charge point operator and e-mobility service provider, not a distributor, transmitter or retailer, so Canada's energy-data obligations do not reach it. Ontario's Green Button regulation binds Ontario electricity and natural gas utilities, and Australia's Consumer Data Right for energy is a different jurisdiction entirely; neither applies to FLO, and FLO publishes no consumer energy data API of any kind. Its API posture is closed and partner-mediated. flo.com has no developer subdomain and no published API reference: developer.flo.com, developers.flo.com, api.flo.com, docs.flo.com and data.flo.com all fail to resolve, and /developers, /api, /openapi.json, /swagger.json and /api-docs all return 404. FLO does name real interoperability standards on its own pages — OCPP 1.6J on the station-to-network side, OCPI for roaming with partner networks, and OpenADR 2.0 alongside "FLO's flexible API" for utility demand response and smart grid integration — but each of those is reached through a commercial agreement rather than a signup form. Customer charging and session data is reachable only by the account holder through the account.flo.com login, and FLO publishes no open market, grid or station-location data feed under its own name.
+FLO is a Quebec City headquartered electric vehicle charging company, founded in 2009 as AddEnergie (addenergie.com now redirects to flo.com), that designs and manufactures its own Level 2 and DC fast charging hardware and operates one of the largest public charging networks in North America. FLO sits on the demand side of the electricity value chain rather than inside the regulated utility layer: it is a charge point operator and e-mobility service provider, not a distributor, transmitter or retailer, so Canada's energy-data obligations do not reach it. Ontario's Green Button regulation binds Ontario electricity and natural gas utilities, and Australia's Consumer Data Right for energy is a different jurisdiction entirely; neither applies to FLO, and FLO publishes no consumer energy data API of any kind. Its API posture is closed and partner-mediated. flo.com has no developer subdomain and no published API reference: developer.flo.com, developers.flo.com, api.flo.com, docs.flo.com and data.flo.com all fail to resolve, and /developers, /api, /openapi.json, /swagger.json and /api-docs all return 404. FLO does name real interoperability standards on its own pages - OCPP 1.6J on the station-to-network side, OCPI for roaming with partner networks, and OpenADR 2.0 alongside "FLO's flexible API" for utility demand response and smart grid integration - but each of those is reached through a commercial agreement rather than a signup form. Customer charging and session data is reachable only by the account holder through the account.flo.com login, and FLO publishes no open market, grid or station-location data feed under its own name. A second enrichment round in July 2026 did find live machine-readable surfaces on flo.com hosts, but all of them are platform-provided rather than FLO-authored: a Shopify storefront MCP server with five tools at store.flo.com/api/mcp plus public products.json and collections.json feeds, RFC 8414/9728 and OIDC discovery documents on store.flo.com, Salesforce Experience Cloud OIDC discovery on network.flo.com, and a Vanta trust center at trust.flo.com carrying FLO's SOC 2 Type 2. FLO also runs real but entirely private API infrastructure - auth.flo.com is an AWS API Gateway that answers every path with 403 Missing Authentication Token, alongside csnms.flo.com and an EMS host - so the charging network itself remains closed.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/flo-ev/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/flo-ev/refs/heads/main/apis.yml)
+**Areas:** Energy · Canada · EV Charging · Electricity · Grid · Demand Response · Interoperability · OCPP · OCPI · OpenADR · Charge Point Operator · Quebec
 
-## Tags
+## FLO on APIs.io
 
-- Energy
-- Canada
-- EV Charging
-- Electricity
-- Grid
-- Demand Response
-- Interoperability
-- OCPP
-- OCPI
-- OpenADR
-- Charge Point Operator
-- Quebec
+Everything profiled for FLO is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/flo-ev/](https://apis.io/providers/flo-ev/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (1)
 
-- **Created:** 2026-07-27
-- **Modified:** 2026-07-27
+- [FLO Store (Shopify Storefront MCP)](https://apis.io/apis/flo-ev/flo-store-shopify-storefront-mcp/) — The only live, anonymously callable machine-readable surface in FLO's estate. FLO's hardware and accessories store runs on Shopify, and that platform serves…
 
-## APIs
+### Published properties
 
-No public, documented **first-party** API. FLO publishes no developer portal and no API reference, and no OpenAPI, AsyncAPI or GraphQL document exists on any flo.com host. See `review.yml` for the original probe log and the mandate/standard/access findings.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-A second enrichment round (2026-07-27) hunted harder and did find live machine-readable surfaces on flo.com hosts — all **platform-provided**, none FLO-authored:
+#### MCP servers (1)
 
-- **[FLO Store MCP server](https://store.flo.com/api/mcp)** — a live Shopify storefront MCP server (protocol `2025-06-18`, serverInfo `storefront-renderer` 0.1.0). `tools/list` answers anonymously with five tools: `search_catalog`, `get_product_details`, `get_cart`, `update_cart`, `search_shop_policies_and_faqs`. Verbatim schemas in `mcp/flo-ev-store-mcp-tools.json`.
-- **Public JSON feeds** — `https://store.flo.com/products.json` and `/collections.json` (HTTP 200).
-- **Discovery documents** — Shopify OIDC + RFC 8414 + RFC 9728 on `store.flo.com`; Salesforce Experience Cloud OIDC on `network.flo.com` (full endpoint set + JWKS + 36 platform scopes).
-- **[Trust center](https://trust.flo.com/)** — Vanta-hosted; FLO holds **SOC 2 Type 2** (BARR Advisory, announced 2024-10-22).
+Model Context Protocol servers that expose the API to agents.
 
-FLO also runs real but entirely private API infrastructure: `auth.flo.com` is an AWS API Gateway that answers every path with `403 {"message":"Missing Authentication Token"}`, alongside `csnms.flo.com` (station network management) and `mqtt-production.ems.flo.com` (energy management). Every developer-facing name a third party would try — `api.`, `developer.`, `developers.`, `docs.`, `data.`, `ocpi.`, `status.` — does not resolve. The charging network itself stays closed and partner-mediated.
+- [flo-store](https://apis.io/servers/flo-ev/flo-store/)
 
-## Artifacts
+#### Governance rules (1)
 
-- `mcp/` — MCP server manifest + verbatim `tools/list` capture
-- `well-known/` — /.well-known/ probe index across five hosts + raw discovery documents
-- `authentication/`, `scopes/` — identity profile and every OAuth scope advertised on a flo.com host (all platform-defined; FLO defines none)
-- `conformance/` — OCPP 1.6J, OCPI, OpenADR 2.0, Plug and Charge, OIDC/OAuth/MCP, plus the explicit negatives
-- `errors/` — the error envelopes FLO's live hosts actually return
-- `lifecycle/` — versioning, deprecation, SLA and status-page findings (no status page exists)
-- `security/` — TLS/HSTS/DNS posture, certificate-transparency subdomain census, trust center
-- `skills/` — agent skill for the storefront MCP server
-- `llms/` — generated llms.txt (FLO publishes none)
+Spectral rulesets for the provider's contracts.
 
-## Energy Data Posture
+- [FLO — lint configurations rules](https://apis.io/rules/flo-ev/flo-ev-lint-configurations-spectral-rules/)
 
-- **Mandate regime:** none — FLO is a charge point operator, not a regulated utility. Ontario's Green Button regulation binds Ontario electricity and gas utilities; the Australian CDR for energy is another jurisdiction. Neither reaches FLO.
-- **Mandate status:** not-applicable — verified by absence across the full flo.com sitemap (103 pages); no compliance page, register entry, Green Button endpoint or ESPI surface exists.
-- **Data standard:** OCPP 1.6J (station-to-network), OCPI (roaming), OpenADR 2.0 (utility demand response). No consumer energy data standard reference found.
-- **Consumer data API:** No. Session, usage and billing data is reachable only by the account holder at [account.flo.com](https://account.flo.com/) or the station owner in the Owner's Portal.
-- **Open market data:** No. No open grid, market, emissions or station-location feed is published.
-- **Access gate:** partner-only. There is no signup form and no application form for API access — integration is a negotiated commercial arrangement (the EnergyHub OpenADR integration is the public example).
-- **Auth model:** No API auth scheme is documented because no API is documented. Published auth surfaces are human: the account.flo.com web login, plus in-station driver auth via the FLO app, RFID, credit card, or GM Plug and Charge autocharge.
+#### Security (3)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Flo Ev Authentication](https://apis.io/security/flo-ev/flo-ev-authentication/)
+- [Flo Ev Domain Security](https://apis.io/security/flo-ev/flo-ev-domain-security/)
+- [Flo Ev Trust Center](https://apis.io/security/flo-ev/flo-ev-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Flo Ev Scopes](https://apis.io/scopes/flo-ev/flo-ev-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.flo.com/)
-- [Blog](https://www.flo.com/ev-charging-insights/) — [RSS](https://www.flo.com/feed/)
-- [Press Room](https://www.flo.com/news-press/)
-- [Media Room](https://www.flo.com/media-room/)
+- [Documentation](https://www.flo.com/business/product-documentation/)
 - [Support](https://www.flo.com/support/)
-- [Product Documentation](https://www.flo.com/business/product-documentation/) — hardware spec sheets and guides only
-- [FLO Account (login)](https://account.flo.com/) — customer login, not a developer portal
-- [Partner Networks](https://www.flo.com/company/partner-networks/)
-- [EV Charging Roaming (OCPI explainer)](https://www.flo.com/insights/ev-charging-roaming/)
-- [FLO for Utilities (OpenADR 2.0)](https://www.flo.com/business/utilities/)
-- [Privacy Policy](https://www.flo.com/privacy-policy/)
-- [Terms of Service](https://www.flo.com/terms-conditions/)
-- [LinkedIn](https://www.linkedin.com/company/floevcharging/)
-- [Twitter](https://twitter.com/FLOevcharging)
-- [Patents](https://www.flo.com/patents/)
+- [Blog](https://www.flo.com/ev-charging-insights/)
+- [Compliance](https://trust.flo.com/)
+- [Terms of service](https://www.flo.com/terms-conditions/)
+- [Privacy policy](https://www.flo.com/privacy-policy/)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 27.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 0.0 |
+| Contract governance | 33.3 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 35.5 |
+
+**Agent readiness 20.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 34.4** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/flo-ev/](https://apis.io/providers/flo-ev/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for FLO: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/flo-ev/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
